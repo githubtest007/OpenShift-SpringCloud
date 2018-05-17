@@ -1,0 +1,38 @@
+#============================================================================================================================================================
+#该文件中的配置项都是EurekaServer通用的配置，对于一些环境差异的配置项在application-'*'.yml中定义。在应用启动的时候添加--spring.profiles.active='*'参数。
+#该文件中的配置可在application-*.yml文件重新定义进行覆盖，应用启动时后加载的配置会覆盖先加载的配置。
+#对于eureka.client.service-url.defaultZone配置项中的环境变量，是用来配置EurekaServer高可用集群时指定其他EurekaServer Instance用的。
+#============================================================================================================================================================
+spring:
+  application:
+    name: eureka-server-discovery
+server:
+  port: 8080
+security:
+  basic:
+    enabled: false
+  user:
+    name: user
+    password: password
+management:
+  security:
+    enabled: false
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    #自己是注册中心，不向注册中心注册自己
+    register-with-eureka: false
+    #自己是注册中心，只负责维护服务实例，不需要去检索服务
+    fetch-registry: false
+    service-url:
+          defaultZone: http://user:password@${EUREKASEVER1}/eureka,http://user:password@${EUREKASEVER2}/eureka,http://user:password@${EUREKASEVER3}/eureka
+  server:
+    #关闭自我保护机制
+    enable-self-preservation: false
+    #启用主动失效，并且每次主动失效检测间隔为3s
+    eviction-interval-timer-in-ms: 3000
+    #刷新readCacheMap的时间
+    responseCacheUpdateInvervalMs: 3000
+#    response-cache-update-interval-ms: 3000
+    responseCacheAutoExpirationInSeconds: 180
