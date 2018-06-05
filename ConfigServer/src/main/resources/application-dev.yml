@@ -7,3 +7,7 @@ spring:
           search-paths: '{application}'
           username: curiouser
           password: curiouser
+eureka:
+  instance:
+    non-secure-port: 80
+    ip-address: configserver-poseidon-ci.apps.test.openshift.com  
